@@ -13,6 +13,9 @@ from .snake import Snake
 from .cube import Cube
 from .grid import Grid
 
+pygame.font.init()
+myfont = pygame.font.SysFont('monospace', 32)
+
 
 class Game:
     score = []
@@ -74,4 +77,11 @@ class Game:
         self.grid.draw()
         self.snack.draw()
         self.snake.draw()
+
+        if self.snake.isPause:
+            text = myfont.render('Pause', True, (255, 255, 0))
+            self.surface.blit(text,
+                ((self.surface.get_width()-text.get_width())/2,
+                 (self.surface.get_height()-text.get_height())/2))
+
         pygame.display.update()

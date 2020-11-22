@@ -13,13 +13,13 @@ from .grid import Grid
 from .tools import placer_pion, coordinate, gagnant
 
 pygame.font.init()
-myfont = pygame.font.SysFont('monospace', 32)
+myfont = pygame.font.SysFont('monospace', 22)
 
 
 class Game:
     def __init__(self):
         # init pygame display
-        self.win = pygame.display.set_mode(DISPLAY_SIZE, pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.RESIZABLE)
+        self.surface = pygame.display.set_mode(DISPLAY_SIZE, pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.RESIZABLE)
         pygame.display.set_caption('rouge contre jaune')
 
         # load ball images
@@ -33,7 +33,7 @@ class Game:
         self.clock = pygame.time.Clock()
 
         # initialize background class
-        self.grid = Grid(self.win, GRID_NXY, GRID_STEP)
+        self.grid = Grid(self.surface, GRID_NXY, GRID_STEP)
 
         # initialize game data
         self.restart()
@@ -62,8 +62,8 @@ class Game:
         pygame.init()
 
     def restart(self):
-        # number of tours in the game
-        self.game_tour = 0
+        # number of turns in the game
+        self.game_turn = 0
         # lines for visualisation of successful combinations
         self.winner = []
         # initialize matrix for the game
@@ -80,8 +80,8 @@ class Game:
             # redraw game objects
             self.redraw()
 
-            # define which player is in this tour
-            player = self.game_tour % 2
+            # define which player is in this turn
+            player = self.game_turn % 2
 
             # show new unplaced ball
             x,y = pygame.mouse.get_pos()
@@ -91,7 +91,7 @@ class Game:
             x -= cur_ball.get_width()/2
             x = 0 if x<0 else x
             x = x if x<DISPLAY_SIZE[0]-cur_ball.get_width() else DISPLAY_SIZE[0]-cur_ball.get_width()
-            self.win.blit(cur_ball, (x,y))
+            self.surface.blit(cur_ball, (x,y))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -108,18 +108,18 @@ class Game:
                             # redraw game objects to show winner combinations
                             self.redraw()
 
-                            self.win.blit(myfont.render(MESSAGE.WON.format(PLAYERS[player]),True, ((255,0,0),(255,255,0))[player]),(10,10))
+                            self.surface.blit(myfont.render(MESSAGE.WON.format(PLAYERS[player],self.game_turn),True, ((255,0,0),(255,255,0))[player]),(10,10))
 
                             # refresh image
                             pygame.display.flip()
                             pygame.display.update()
 
-                            message_box(MESSAGE.WON.format(PLAYERS[player]), MESSAGE.AGAIN)
+                            message_box(MESSAGE.WON.format(PLAYERS[player],self.game_turn), MESSAGE.AGAIN)
                             self.restart()
 
                             break
                         else:
-                            self.game_tour += 1
+                            self.game_turn += 1
 
 
 
@@ -141,9 +141,9 @@ class Game:
                     x,y = coordinate((ix,iy))
                     x -= ball.get_width()/2
                     y -= ball.get_height()/2
-                    self.win.blit(ball, (x,y))
+                    self.surface.blit(ball, (x,y))
 
         # draw lines for the winner combinations
         for line in self.winner:
-            pygame.draw.line(self.win, (255, 0, 0), coordinate(line[0]), coordinate(line[1]), 5)
+            pygame.draw.line(self.surface, (255, 0, 0), coordinate(line[0]), coordinate(line[1]), 5)
 

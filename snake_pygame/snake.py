@@ -7,6 +7,7 @@ from .cube import Cube
 import pygame
 
 
+
 class Snake(threading.Thread):
     turns = {}
     isPause = False
@@ -94,3 +95,5 @@ class Snake(threading.Thread):
     def draw(self):
         for c in reversed(self.body):
             c.draw(c == self.head)
+
+

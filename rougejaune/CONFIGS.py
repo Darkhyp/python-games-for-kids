@@ -1,10 +1,10 @@
 # French
 PLAYERS = ('rouge','jaune')
 MESSAGE = lambda: ()
-MESSAGE.WON = 'Le joueur {} a gagné'
+MESSAGE.WON = 'Le joueur {} a gagné en {} tours'
 MESSAGE.AGAIN = 'Rejouer'
 #English
-# MESSAGE.WON = 'Player {} won'
+# MESSAGE.WON = 'Player {} won in {} turns'
 # MESSAGE.AGAIN = 'Play again'
 
 GRID_STEP = (60,60)
