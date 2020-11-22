@@ -50,6 +50,8 @@ class Game:
     def mainloop(self):
         # main loop
         while self.flag:
+            # pygame.time.delay(10)
+            # self.clock.tick(1)
             pygame.time.delay(150)
             self.clock.tick(10)
 
@@ -73,7 +75,8 @@ class Game:
                 self.snake.reset(SNAKE_POS0)
             else:
                 # move snake
-                self.snake.move()
+                self.snake.check_keys()
+                # self.snake.move()
 
     def redraw(self): # redraw game objects
         self.grid.draw()

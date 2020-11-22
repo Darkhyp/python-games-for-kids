@@ -5,10 +5,11 @@ HEIGHT = 400
 BGCOLOR = 'black'
 
 # ball parameters
-BALL_DT = 0.05
-BALL_COLOR = 'white' # color
+BALL_COLOR = 'yellow' # color
 BALL_SIZE = 1
-BALL_SPEED = 10
+# use these two parameters to change the ball speed
+BALL_SPEED = 1
+BALL_DT = 0.002 # sleep in seconds
 
 # rockets parameters
 ROCKET_HEIGHT = 5 # vertical dimension
@@ -18,10 +19,10 @@ ROCKETS_DXPOS = 40 # distance from the side
 # key map
 ROCKET1_KEY_UP = 'w'
 ROCKET1_KEY_DOWN = 's'
-ROCKET1_COLOR = 'yellow' # color
+ROCKET1_COLOR = 'red' # color
 ROCKET2_KEY_UP = 'Up'
 ROCKET2_KEY_DOWN = 'Down'
-ROCKET2_COLOR = 'yellow' # color
+ROCKET2_COLOR = 'blue' # color
 
 # position (and color) of the text for scores output
 SCORE_POS = 20

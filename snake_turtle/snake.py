@@ -1,11 +1,13 @@
 import random
+import threading
+import time
 
 from .CONFIGS import *
 from .cube import Cube
 import pygame
 
 
-class Snake:
+class Snake(threading.thread):
     turns = {}
 
     def __init__(self, win, pos, color):
@@ -14,6 +16,16 @@ class Snake:
         self.rnd_direction()
         self.head = Cube(self.win, pos, color, self.dir)
         self.body = [self.head]
+
+    def run(self):
+        while True:
+            try:
+                time.sleep(SNAKE_DT)
+            except Exception as e:
+                print(e)
+            if not self.isPause:
+                self.move()
+            t.update()
 
     def check_keys(self):
         for event in pygame.event.get():
@@ -39,7 +51,6 @@ class Snake:
                     self.turns[self.head.pos] = self.dir
 
     def move(self):
-        self.check_keys()
         for i, c in enumerate(self.body):
             p = c.pos
             if p in self.turns:

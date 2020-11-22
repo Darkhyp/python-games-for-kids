@@ -18,23 +18,29 @@ class Game:
     score = []
 
     def __init__(self):
-        self.win = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
+        self.surface = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
+        pygame.display.set_caption('snake eats snacks')
+
         self.game_over = True
         self.clock = pygame.time.Clock()
 
-        self.grid = Grid(self.win, (NROWS, NCOLS), (GRID_DX, GRID_DY))
-        self.snake = Snake(self.win, SNAKE_POS0, SNAKE_COLOR)
-        self.snack = Cube(self.win, (random.randrange(NROWS), random.randrange(NROWS)), SNACK_COLOR)
+        self.grid = Grid(self.surface, (NROWS, NCOLS), (GRID_DX, GRID_DY))
+        self.snake = Snake(self.surface, SNAKE_POS0, SNAKE_COLOR)
+        self.snack = Cube(self.surface, (random.randrange(NROWS), random.randrange(NROWS)), SNACK_COLOR)
 
         pygame.init()
 
     def mainloop(self):
         make_sound(2)
+        self.snake.start()
 
         # main loop
         while self.game_over:
-            pygame.time.delay(150)
-            self.clock.tick(10)
+            pygame.time.delay(50)
+            self.clock.tick(25)
+            # pygame.time.delay(150)
+            # self.clock.tick(10)
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     # pygame.quit()
@@ -51,7 +57,7 @@ class Game:
                     snack_pos = (random.randrange(NROWS), random.randrange(NROWS))
                     if not (snack_pos in list(map(lambda x: x.pos, self.snake.body))):
                         break
-                self.snack = Cube(self.win, snack_pos, SNACK_COLOR)
+                self.snack = Cube(self.surface, snack_pos, SNACK_COLOR)
 
             # snake eats its tail
             if self.snake.self_eat():
@@ -62,7 +68,7 @@ class Game:
                 self.snake.reset(SNAKE_POS0)
             else:
                 # move snake
-                self.snake.move()
+                self.snake.check_keys()
 
     def redraw(self):  # redraw game objects
         self.grid.draw()

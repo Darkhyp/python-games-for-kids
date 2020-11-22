@@ -7,18 +7,20 @@ import sys
 import numpy as np
 import pygame
 
-from common import message_box
+from common import message_box, make_sound
 from .CONFIGS import *
 from .grid import Grid
 from .tools import placer_pion, coordinate, gagnant
 
-
+pygame.font.init()
+myfont = pygame.font.SysFont('monospace', 32)
 
 
 class Game:
     def __init__(self):
         # init pygame display
         self.win = pygame.display.set_mode(DISPLAY_SIZE, pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.RESIZABLE)
+        pygame.display.set_caption('rouge contre jaune')
 
         # load ball images
         ball_red = pygame.image.load(BALL_RED_IMAGE).convert_alpha()
@@ -35,6 +37,7 @@ class Game:
 
         # initialize game data
         self.restart()
+        # test only
         # self.game_matrix = np.array(
         #       [[-1, -1, -1, -1, -1, -1],
         #        [-1, -1, -1, -1, -1, -1],
@@ -94,19 +97,25 @@ class Game:
                 if event.type == pygame.QUIT:
                     # pygame.quit()
                     sys.exit()
-                elif event.type==pygame.MOUSEBUTTONDOWN:
+                if event.type==pygame.MOUSEMOTION:
+                    pass
+                if event.type==pygame.MOUSEBUTTONDOWN:
                     isPlaced,self.game_matrix,self.winner = placer_pion(player, col, self.game_matrix)
                     if isPlaced:
                         if self.winner:
+                            make_sound(2)
+
                             # redraw game objects to show winner combinations
                             self.redraw()
+
+                            self.win.blit(myfont.render(MESSAGE.WON.format(PLAYERS[player]),True, ((255,0,0),(255,255,0))[player]),(10,10))
 
                             # refresh image
                             pygame.display.flip()
                             pygame.display.update()
 
+                            message_box(MESSAGE.WON.format(PLAYERS[player]), MESSAGE.AGAIN)
                             self.restart()
-                            message_box('Player '+('yellow' if(player) else 'red') + ' won', '\nPlay again')
 
                             break
                         else:
@@ -129,13 +138,12 @@ class Game:
                 player = self.game_matrix[ix,iy]
                 if player!=-1:
                     ball = self.balls[player]
-                    x,y = coordinate((ix,iy),(0,1))
+                    x,y = coordinate((ix,iy))
                     x -= ball.get_width()/2
                     y -= ball.get_height()/2
                     self.win.blit(ball, (x,y))
 
         # draw lines for the winner combinations
         for line in self.winner:
-            pygame.draw.line(self.win, (255, 0, 0), coordinate(line[0], (0, 1)),
-                             coordinate(line[1], (0, 1)), 5)
+            pygame.draw.line(self.win, (255, 0, 0), coordinate(line[0]), coordinate(line[1]), 5)
 

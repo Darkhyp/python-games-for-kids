@@ -3,8 +3,8 @@ import pygame
 
 
 class Cube:
-    def __init__(self, win, pos, color=SNAKE_COLOR, dir=(1, 0)):
-        self.win = win
+    def __init__(self, surface, pos, color=SNAKE_COLOR, dir=(1, 0)):
+        self.surface = surface
         self.pos = pos
         self.color = color
         self.dir = dir
@@ -14,7 +14,7 @@ class Cube:
         self.pos = (self.pos[0]+dir[0],self.pos[1]+dir[1])
 
     def draw(self,isEyes=False):
-        pygame.draw.rect(self.win,self.color,
+        pygame.draw.rect(self.surface,self.color,
                          (self.pos[0] * GRID_DX + 1,
                           self.pos[1] * GRID_DY + 1,
                           GRID_DX - 2,
@@ -31,5 +31,5 @@ class Cube:
             else:
                 circle1 = (x0 - centrex/2, y0 + centrey/2*self.dir[1])
                 circle2 = (x0 + centrex/2, y0 + centrey/2*self.dir[1])
-            pygame.draw.circle(self.win, EYE_COLOR, circle1, radius)
-            pygame.draw.circle(self.win, EYE_COLOR, circle2, radius)
+            pygame.draw.circle(self.surface, EYE_COLOR, circle1, radius)
+            pygame.draw.circle(self.surface, EYE_COLOR, circle2, radius)
