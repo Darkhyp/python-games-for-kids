@@ -1,6 +1,13 @@
+# networt paramenters
+SERVER_ADDR = '192.168.1.84'
+SERVER_PORT = 5555
+
+
 # French
 PLAYERS = ('rouge','jaune')
 MESSAGE = lambda: ()
+MESSAGE.YOULOST = 'Vous aver perdu en {} tours'
+MESSAGE.YOUWON = 'Vous aver gagné en {} tours'
 MESSAGE.WON = 'Le joueur {} a gagné en {} tours'
 MESSAGE.AGAIN = 'Rejouer'
 #English

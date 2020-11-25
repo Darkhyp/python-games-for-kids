@@ -1,3 +1,4 @@
 from .grid import Grid
-from .game import Game
 from .tools import coordinate
+from .game import Game
+from .game import Players
