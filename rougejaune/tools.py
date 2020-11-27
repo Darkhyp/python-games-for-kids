@@ -3,8 +3,8 @@ import numpy as np
 
 
 def coordinate(case):
-    return GRID_STEP[0] * case[0] + GRID_STEP[0]/2,\
-           GRID_STEP[1] * ((GRID_NXY[1]-1)-case[1]) + GRID_STEP[1]*3/2
+    return GRID_STEP[0] * case[0] + GRID_STEP[0]/2 + 1,\
+           GRID_STEP[1] * ((GRID_NXY[1]-1)-case[1]) + GRID_STEP[1]*3/2 + 1
 
 def placer_pion(couleur, colonne, grille):
     isPlace = False

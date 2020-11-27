@@ -66,17 +66,8 @@ class Snake(threading.Thread):
                 c.move(self.turns[p])
                 if i == len(self.body) - 1:
                     self.turns.pop(p)
-            else: # reach boundaries
-                if c.dir[0] == -1 and c.pos[0] <= 0:
-                    c.pos = (NROWS - 1, c.pos[1])
-                elif c.dir[0] == 1 and c.pos[0] >= NROWS - 1:
-                    c.pos = (0, c.pos[1])
-                elif c.dir[1] == 1 and c.pos[1] >= NCOLS - 1:
-                    c.pos = (c.pos[0], 0)
-                elif c.dir[1] == -1 and c.pos[1] <= 0:
-                    c.pos = (c.pos[0], NCOLS - 1)
-                else:
-                    c.move(c.dir)
+            else:
+                c.move(c.dir)
 
     def rnd_direction(self):
         if random.choice([0,1]) == 0:

@@ -9,16 +9,32 @@ class Cube:
         self.color = color
         self.dir = dir
 
-    def move(self,dir):
+    def move(self, dir):
         self.dir = dir
-        self.pos = (self.pos[0]+dir[0],self.pos[1]+dir[1])
+
+        # is reached boundaries
+        isMove = True
+        if dir[0] == -1 and self.pos[0] <= 0:
+            isMove = False
+            self.pos = (NROWS - 1, self.pos[1])
+        if dir[0] == 1 and self.pos[0] >= NROWS - 1:
+            isMove = False
+            self.pos = (0, self.pos[1])
+        if dir[1] == 1 and self.pos[1] >= NCOLS - 1:
+            isMove = False
+            self.pos = (self.pos[0], 0)
+        if dir[1] == -1 and self.pos[1] <= 0:
+            isMove = False
+            self.pos = (self.pos[0], NCOLS - 1)
+        if isMove:
+            self.pos = (self.pos[0]+dir[0],self.pos[1]+dir[1])
 
     def draw(self,isEyes=False):
         pygame.draw.rect(self.surface,self.color,
                          (self.pos[0] * GRID_DX + 1,
                           self.pos[1] * GRID_DY + 1,
-                          GRID_DX - 2,
-                          GRID_DY - 2))
+                          GRID_DX - 1,
+                          GRID_DY - 1))
         if isEyes:
             centrex = GRID_DX // 2
             centrey = GRID_DY // 2
