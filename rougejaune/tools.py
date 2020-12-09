@@ -8,14 +8,14 @@ def coordinate(case):
 
 def placer_pion(couleur, colonne, grille):
     isPlace = False
-    line_gagne = None
+    line_gagne = []
     ind = np.where(grille[colonne,:] == -1)[0]
     isPlace = len(ind) > 0
     if isPlace:
         ligne = ind[0]
         grille[colonne,ligne] = couleur
-        line_gagne = gagnant(couleur, colonne,ligne, grille)
-    return isPlace,grille,line_gagne
+        line_gagne = gagnant(couleur, colonne, ligne, grille)
+    return isPlace, grille, line_gagne
 
 def verifier_ensemble(n,couleur,pos,grille):
     """
@@ -45,9 +45,6 @@ def gagnant(couleur, colonne,ligne, grille):
     line_gagne = []
 
     # colonne gagnant
-    # if (ligne >= 3):
-    #     if np.all(grille[colonne, ligne-3:ligne+1] == couleur):
-    #         line_gagne.append(((colonne,ligne-3),(colonne,ligne)))
     verifier(line_gagne, lambda t: (colonne,t), couleur, ligne, grille[colonne,:])
 
     # ligne gagnant
