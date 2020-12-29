@@ -28,7 +28,7 @@ def tracer_case(t, case, couleur, pas, dl=0):
     # t.goto(-150, -150)
     x, y = coordonnees(case, pas)
     t.up()
-    # t.goto(x+pas/2, y-pas/2)
+    # t.goto(ix+pas/2, y-pas/2)
     t.goto(x + dl, y - dl)
     t.down()
     t.color(couleur)

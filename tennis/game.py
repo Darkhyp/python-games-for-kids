@@ -21,7 +21,6 @@ class Game:
 
     def turtle_init(self):
         t.title("Game - Tennis")
-        # t.speed(0)
         t.tracer(0, 0)
         t.hideturtle()
         t.bgcolor(BGCOLOR)

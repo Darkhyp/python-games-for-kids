@@ -1,5 +1,5 @@
 # networt paramenters
-SERVER_ADDR = '192.168.1.84'
+SERVER_ADDR = '192.168.1.28'
 SERVER_PORT = 5555
 
 

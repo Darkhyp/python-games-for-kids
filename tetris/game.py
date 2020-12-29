@@ -8,10 +8,10 @@ import sys
 import pygame
 
 from common import message_box, make_sound
-from snake_pygame.CONFIGS import *
-from snake_pygame.snake import Snake
-from snake_pygame.cube import Cube
-from snake_pygame.grid import Grid
+from .CONFIGS import *
+from .map import Map
+from .block import Block
+from .grid import Grid
 
 pygame.font.init()
 myfont = pygame.font.SysFont('monospace', 32)
@@ -27,18 +27,22 @@ class Game:
         self.game_over = True
         self.clock = pygame.time.Clock()
 
-        pygame.init()
+        self.map = Map(self.surface)
 
         self.grid_surface = pygame.Surface((DISPLAY_WIDTH, DISPLAY_HEIGHT))
         self.grid = Grid(self.grid_surface, (N_ROWS, N_COLS), (GRID_DX, GRID_DY))
         self.grid.draw()
 
-        self.snake = Snake(self.surface, SNAKE_POS0, SNAKE_COLOR)
-        self.snack = Cube(self.surface, (random.randrange(N_ROWS), random.randrange(N_ROWS)), SNACK_COLOR)
+        self.next_block_surface = pygame.Surface((NEXT_PANEL_WIDTH, NEXT_PANEL_HEIGHT))
+        self.next_block = Block(self.next_block_surface)
+        self.next_block.init_block()
+
+        self.isNewBlock = True
+
+        pygame.init()
 
     def mainloop(self):
         make_sound(2)
-        self.snake.start()
 
         # main loop
         while self.game_over:
@@ -50,41 +54,44 @@ class Game:
                     # pygame.quit()
                     sys.exit()
 
+            # create new block
+            if self.isNewBlock:
+                self.isNewBlock = False
+                self.current_block = Block(self.surface, draw_pos=GRID_POS)
+                self.current_block.copy(self.next_block)
+                self.next_block.init_block()
+                self.current_block.start()
+
             # redraw game objects
             self.redraw()
 
-            # snake eats snack
-            if self.snake.head.pos == self.snack.pos:
-                make_sound(1)
-                self.snake.addCube()
-                while True:
-                    snack_pos = (random.randrange(N_ROWS), random.randrange(N_ROWS))
-                    if not (snack_pos in list(map(lambda x: x.pos, self.snake.body))):
-                        break
-                self.snack = Cube(self.surface, snack_pos, SNACK_COLOR)
+            self.current_block.movement()
+            self.check_block_collisions()
 
-            # snake eats its tail
-            if self.snake.self_eat():
-                make_sound(3)
-                self.score.append(len(self.snake.body))
-                msg = 'Your score is {0} [record is {1}]'.format(self.score[-1], max(self.score))
-                message_box('You lost!', msg + '\nPlay again')
-                self.snake.reset(SNAKE_POS0)
-            else:
-                # move snake
-                self.snake.check_keys()
+    def check_block_collisions(self):
+        self.isNewBlock = self.map.check_collisions(self.current_block)
+        if self.isNewBlock:
+            self.current_block.signal_stop = False
+            self.map.put_blocks(self.current_block)
+
+            self.map.check_lines()
 
     def redraw(self):  # redraw game objects
-        # self.grid.draw()
         self.surface.blit(self.grid_surface, (0, 0))
-        self.snack.draw()
-        self.snake.draw()
+        self.next_block_surface.fill(BLACK)
+        self.next_block.draw()
+        self.surface.blit(self.next_block_surface, RIGHT_PANEL_POS)
+        self.current_block.draw()
+
+        self.map.draw()
 
         # if pause is pressed
-        if self.snake.isPause:
+        if self.current_block.isPause:
             text = myfont.render('Pause', True, (255, 255, 0))
             self.surface.blit(text,
                 ((self.surface.get_width()-text.get_width())/2,
                  (self.surface.get_height()-text.get_height())/2))
 
         pygame.display.update()
+        # pygame.display.flip()
+

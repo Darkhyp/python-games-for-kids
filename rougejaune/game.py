@@ -175,7 +175,7 @@ class Game:
 
             # ball position ('-1' means incorrect position )
             col_placed_ball = -1
-            if self.id_player is not None and player!=self.id_player: # show opponent move if exist
+            if self.id_player is not None and player != self.id_player: # show opponent move if exist
                 # try to get data from the server
                 try:
                     players = self.net.send("get")
@@ -207,8 +207,8 @@ class Game:
             pygame.display.update()
 
             # ball is placed, check winner
-            if col_placed_ball!=-1:
-                isPlaced,self.game_matrix,self.winner = placer_pion(player, col_placed_ball, self.game_matrix)
+            if col_placed_ball != -1:
+                isPlaced, self.game_matrix, self.winner = placer_pion(player, col_placed_ball, self.game_matrix)
                 if isPlaced:
                     if player == self.id_player:
                         # send to server
@@ -249,7 +249,7 @@ class Game:
         for ix in range(self.game_matrix.shape[0]):
             for iy in range(self.game_matrix.shape[1]):
                 player = self.game_matrix[ix,iy]
-                if player!=-1:
+                if player != -1:
                     put_ball(self.surface, self.balls[player], coordinate((ix, iy)))
 
         # draw lines for the winner combinations

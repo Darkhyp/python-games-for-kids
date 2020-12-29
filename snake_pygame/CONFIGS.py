@@ -7,24 +7,24 @@ SNAKE_POS0 = (10,10)
 SNACK_COLOR = (0,255,0)
 SNAKETAIL_COLOR = (0,0,255)
 # to change the snake speed
-SNAKE_DT = 0.15# sleep in seconds
+SNAKE_DT = 0.15 # sleep in seconds
 # snake eyes color
 EYE_COLOR = (0,0,0)
 
 # grid numbers
-NROWS = 20
-NCOLS = 20
+N_ROWS = 20
+N_COLS = 20
 # grid size
 GRID_DX = 25
 GRID_DY = 25
 # grid color
-GRID_COLOR = (255,255,255)
+GRID_COLOR = (150, 200, 150)
 
 # display
-DISPLAY_WIDTH = GRID_DX*NROWS
-DISPLAY_HEIGHT = GRID_DY*NCOLS
+DISPLAY_WIDTH = GRID_DX*N_ROWS
+DISPLAY_HEIGHT = GRID_DY*N_COLS
 # display background
-BACKGROUND_COLOR = (0,0,0)
+BACKGROUND_COLOR = (0,30,0)
 
 
 # pause key

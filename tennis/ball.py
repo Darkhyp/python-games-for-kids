@@ -49,8 +49,8 @@ class Ball(threading.Thread):
     def check_boundaries(self):
         # reflection from the obstacles
         for obs in self.obstacles:
-            if -BALL_SPEED / 2 < obs.x + obs.dx0 - self.x < BALL_SPEED / 2 \
-                    and -ROCKET_HEIGHT * TKTURTLE_DX / 2 < self.y - obs.y < ROCKET_HEIGHT * TKTURTLE_DX / 2:
+            if -BALL_SPEED / 2 < obs.ix + obs.dx0 - self.x < BALL_SPEED / 2 \
+                    and -ROCKET_HEIGHT * TKTURTLE_DX / 2 < self.y - obs.iy < ROCKET_HEIGHT * TKTURTLE_DX / 2:
                 self.dx = -self.dx
                 make_sound(4)
 
@@ -58,7 +58,7 @@ class Ball(threading.Thread):
         if self.x + self.dx < -WIDTH / 2 or self.x + self.dx > WIDTH / 2:
             make_sound(3)
             for obs in self.obstacles:
-                if self.x * obs.x < 0:
+                if self.x * obs.ix < 0:
                     obs.score += 1  # give a score ball
             self.dx = -self.dx
             self.printscore()  # update a score

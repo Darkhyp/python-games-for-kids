@@ -8,7 +8,7 @@ BGCOLOR = 'black'
 BALL_COLOR = 'yellow' # color
 BALL_SIZE = 1
 # use these two parameters to change the ball speed
-BALL_SPEED = 1
+BALL_SPEED = 3
 BALL_DT = 0.002 # sleep in seconds
 
 # rockets parameters

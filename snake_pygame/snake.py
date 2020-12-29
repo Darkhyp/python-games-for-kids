@@ -7,18 +7,17 @@ from .cube import Cube
 import pygame
 
 
-
 class Snake(threading.Thread):
     turns = {}
     isPause = False
 
-    def __init__(self, win, pos, color):
+    def __init__(self, surface, pos, color):
         threading.Thread.__init__(self)
 
-        self.win = win
+        self.surface = surface
         self.color = color
         self.rnd_direction()
-        self.head = Cube(self.win, pos, color, self.dir)
+        self.head = Cube(self.surface, pos, color, self.dir)
         self.body = [self.head]
 
         self.daemon = True  # close thread correctly!!!
@@ -27,7 +26,7 @@ class Snake(threading.Thread):
     def reset(self, pos):
         self.turns = {}
         self.rnd_direction()
-        self.head = Cube(self.win, pos, self.color, self.dir)
+        self.head = Cube(self.surface, pos, self.color, self.dir)
         self.body = [self.head]
         self.isPause = False
 
@@ -80,11 +79,9 @@ class Snake(threading.Thread):
 
     def addCube(self):
         tail = self.body[-1]
-        self.body.append(Cube(self.win, (tail.pos[0] - tail.dir[0], tail.pos[1] - tail.dir[1]), SNAKETAIL_COLOR))
+        self.body.append(Cube(self.surface, (tail.pos[0] - tail.dir[0], tail.pos[1] - tail.dir[1]), SNAKETAIL_COLOR))
         self.body[-1].dir = tail.dir
 
     def draw(self):
         for c in reversed(self.body):
             c.draw(c == self.head)
-
-
