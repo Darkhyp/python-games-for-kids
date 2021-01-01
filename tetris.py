@@ -8,5 +8,5 @@ from tetris import Game
 
 if __name__ == '__main__':
     game = Game()
-    game.mainloop()
+    game.start_new_game()
 

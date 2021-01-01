@@ -10,17 +10,19 @@ from tetris.CONFIGS import BLOCK_LIST, N_COLS, GRID_DX, GRID_DY, GRID_POS, PLAYE
 
 class Block(threading.Thread):
     block = []
-    def __init__(self, surface, pos=(0, 0), draw_pos=(0, 0)):
+    is_collision = False # stop if collision is true
+    isPause = False      # pause if pause is pressed
+
+    def __init__(self, surface, speed=BLOCK_SPEED, map=None, pos=(0, 0), draw_pos=(0, 0)):
         threading.Thread.__init__(self)
 
         self.surface = surface
+        self.map = map
         self.ix = pos[0]
         self.iy = pos[1]
         self.draw_pos = draw_pos
-        self.speed = BLOCK_SPEED
+        self.speed = speed
 
-        self.isPause = False
-        self.signal_stop = True
         self.daemon = True  # close thread correctly!!!
 
     def copy(self, blc):
@@ -30,8 +32,9 @@ class Block(threading.Thread):
         self.iy_max = blc.iy_max
         self.ix = (N_COLS + self.ix_max) // 2
         self.iy = 0
-        self.ix_prev = self.ix
-        self.iy_prev = self.iy
+        # check collision
+        if self.map.check_collision(self):
+            is_collision = True
 
     def init_block(self):
         # random choice of the block and its i_color
@@ -58,17 +61,20 @@ class Block(threading.Thread):
                               GRID_DX - 1,
                               GRID_DY - 1))
 
-    def movement(self, map):
+    def movement(self):
         keys = pygame.key.get_pressed()
         if keys[PLAYER_LEFT] and self.ix != 0:
             self.ix -= 1
-            if map.check_collisions(self):
+            # check collision
+            if self.map.check_collision(self):
+                # cancel horizontal shift
                 self.ix += 1
         if keys[PLAYER_RIGHT] and self.ix + self.ix_max + 1 < N_COLS:
             self.ix += 1
-            if map.check_collisions(self):
+            # check collision
+            if self.map.check_collision(self):
+                # cancel horizontal shift
                 self.ix -= 1
-        self.ix_prev = self.ix
         # rotate object
         if keys[PLAYER_UP]:
             rotated_object = set()
@@ -76,25 +82,29 @@ class Block(threading.Thread):
                 rotated_object.add((self.iy_max - coordinate[1], coordinate[0]))
             old_block = self.block
             self.block = rotated_object
-            if map.check_collisions(self):
+            # check collision
+            if self.map.check_collision(self):
+                # cancel rotation
                 self.block = old_block
             else:
                 self.ix_max, self.iy_max = self.iy_max, self.ix_max
-        if keys[PLAYER_DOWN] or keys[pygame.K_SPACE]:
+        if keys[PLAYER_DOWN]:
             self.speed = BLOCK_SPEED/10
+        if keys[pygame.K_SPACE]:
+            self.speed = BLOCK_SPEED/100
         if keys[PAUSE_KEY]:
             self.isPause = not self.isPause
-
-    def prev_pos(self):
-        self.ix = self.ix_prev
-        self.iy = self.iy_prev
 
     def fall(self):
         self.iy_prev = self.iy
         self.iy += 1
+        # check collision
+        if self.map.check_collision(self):
+            self.iy -= 1
+            self.is_collision = True
 
     def run(self):
-        while self.signal_stop:
+        while not self.is_collision:
             try:
                 time.sleep(self.speed)
             except Exception as e:
