@@ -3,15 +3,14 @@ main class for "snake" classical game in 3D using ursina module
 01/01/2021
 Author A.V.Korovin [a.v.korovin73@gmail.com]
 """
-import random
+from ursina import camera, Ursina, window, color, Light, Entity, scene, print_on_screen, invoke, mouse, \
+    distance, clamp, Grid, Sky, Audio, Shader
 
-from ursina import camera, Ursina, window, color, Light, Entity, Grid, scene, print_on_screen, Wait, invoke, mouse, \
-    distance, clamp
-
-from snake3D.CONFIGS import SNAKE_POS0, MAP_SIZE_X, MAP_SIZE_Y, DISPLAY_WIDTH, DISPLAY_HEIGHT
+from snake3D.CONFIGS import MAP_SIZE_X, MAP_SIZE_Y, DISPLAY_WIDTH, DISPLAY_HEIGHT
 from snake3D.snake import Snake
 from snake3D.snack import Snack
 
+game_sound = Audio(clip=r'C:\Windows\Media\tada.wav', loop=False, autoplay=False)
 
 class Game(Ursina):
     score = [0]
@@ -20,9 +19,17 @@ class Game(Ursina):
         super().__init__()
         window.color = color.black
         window.fullscreen_size = (DISPLAY_WIDTH, DISPLAY_HEIGHT)
-        window.fullscreen = True
-        Light(type='ambient', color=(0.5, 0.5, 0.5, 1))
+        # window.fullscreen = True
+
+        window.fullscreen = False
+        window.boardless = False
+        # window.fps_counter.enabled = False
+        # window.exit_button.visible = False
+        window.title = 'Snake3D'
+
+        Light(type='ambient', color=(0.25, 0.25, 0.25, 1))
         Light(type='directional', color=(0.5, 0.5, 0.5, 1), direction=(1, 1, 1))
+        Sky(scale=150, double_side=True)
 
         self.start_new_game()
 
@@ -43,6 +50,7 @@ class Game(Ursina):
 
     def start_new_game(self):
         #     make_sound(2)
+        game_sound.play()
         scene.clear()
 
         # create map
@@ -53,7 +61,7 @@ class Game(Ursina):
         self.snack.random_position()
 
         # snake
-        self.snake = Snake(position=SNAKE_POS0)
+        self.snake = Snake()
         self.snake.isPause = False
         self.snake.start()
 
@@ -98,4 +106,6 @@ class Game(Ursina):
             msg = 'You lost!\nYour score is {0}\n[record is {1}]'.format(self.score[-1], max(self.score))
             print_on_screen(msg, position=(-0.7, 0.15), scale=5, duration=2)
             self.snake.isPause = True
+
             invoke(self.start_new_game, delay=3)
+            # self.snake.reset()

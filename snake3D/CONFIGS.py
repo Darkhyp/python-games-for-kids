@@ -18,7 +18,7 @@ SNAKE_TAIL_COLOR = color.blue
 # snake speed
 SNAKE_DT = 0.15 # sleep in seconds
 # snake eyes color
-EYE_COLOR = color.black
+EYE_COLOR = r'snake3D\eyes.png'
 
 # display
 DISPLAY_WIDTH = 1920
