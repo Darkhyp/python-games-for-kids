@@ -5,7 +5,8 @@ Author A.V.Korovin [a.v.korovin73@gmail.com]
 """
 import random
 
-from ursina import camera, Ursina, window, color, Light, Entity, Grid, scene, print_on_screen, Wait, invoke, mouse
+from ursina import camera, Ursina, window, color, Light, Entity, Grid, scene, print_on_screen, Wait, invoke, mouse, \
+    distance, clamp
 
 from snake3D.CONFIGS import SNAKE_POS0, MAP_SIZE_X, MAP_SIZE_Y, DISPLAY_WIDTH, DISPLAY_HEIGHT
 from snake3D.snake import Snake
@@ -26,7 +27,7 @@ class Game(Ursina):
         self.start_new_game()
 
         # camera position
-        camera.position = (MAP_SIZE_X//2, -20-MAP_SIZE_Y//2, -20)
+        camera.position = (MAP_SIZE_X/2, -20-MAP_SIZE_Y/2, -20)
         camera.rotation_x = -60
 
         self.game_over = True
@@ -60,21 +61,25 @@ class Game(Ursina):
     def input(self, key):
         self.snake.check_keys(key)
         if key in ['mouse1', '2']:
-            camera.position = (MAP_SIZE_X // 2, MAP_SIZE_Y // 2-0.5, -50)
+            camera.position = (MAP_SIZE_X/2, MAP_SIZE_Y/2 - 0.5, -50)
             camera.rotation_x = camera.rotation_y = camera.rotation_z = 0
         elif key in ['mouse3', '3']:
-            camera.position = (MAP_SIZE_X // 2, -22, -20)
+            camera.position = (MAP_SIZE_X/2, -22, -20)
             camera.rotation_x = -57
         elif key == '-':
-            camera.position = (camera.position[0], camera.position[1] + 10, camera.position[2])
+            camera.position = (camera.position[0], camera.position[1] + 3, camera.position[2])
         elif key == '+':
-            camera.position = (camera.position[0], camera.position[1] - 10, camera.position[2])
+            camera.position = (camera.position[0], camera.position[1] - 3, camera.position[2])
         super().input(key)
 
     # main loop
     def update(self):
+        camera.rotation_y += mouse.velocity[0] * 40
+        camera.rotation_x -= mouse.velocity[1] * 40
+        camera.rotation_x = clamp(camera.rotation_x, -90, 90)
+
         # snake eats snack
-        if self.snake.head.position == self.snack.position:
+        if distance(self.snake.head.position, self.snack.position) < 0.1:
             # make_sound(1)
             self.score[-1] += 1
             msg = 'Your score is {0}'.format(self.score[-1])

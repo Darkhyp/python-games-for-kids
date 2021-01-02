@@ -1,5 +1,5 @@
 # snake parameters
-from ursina import color, Vec3, Vec4
+from ursina import color
 
 SNACK_COLOR = color.red
 
@@ -10,7 +10,7 @@ MAP_SIZE_Y = 15
 # make snake more smooth
 IS_SNAKE_SMOOTH = True
 # start position of the snake
-SNAKE_POS0 = Vec3(MAP_SIZE_X/2, MAP_SIZE_Y/2, 0)
+SNAKE_POS0 = (MAP_SIZE_X//2, MAP_SIZE_Y//2, 0)
 # snake head color
 SNAKE_COLOR = color.green
 # snake tail color

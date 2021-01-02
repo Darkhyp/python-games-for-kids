@@ -70,9 +70,9 @@ class Snake(threading.Thread):
 
     def rnd_direction(self):
         if random.choice([0,1]) == 0:
-            self.dir = (0, random.choice([-1,1]))
+            self.dir = (0, random.choice([-1, 1]))
         else:
-            self.dir = (random.choice([-1,1]), 0)
+            self.dir = (random.choice([-1, 1]), 0)
 
     def self_eat(self): # if head has the same position as tail
         return self.head.pos in list(map(lambda x: x.pos, self.body[1:]))
