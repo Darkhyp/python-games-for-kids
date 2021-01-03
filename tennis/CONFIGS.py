@@ -14,7 +14,7 @@ BALL_DT = 0.002 # sleep in seconds
 # rockets parameters
 ROCKET_HEIGHT = 5 # vertical dimension
 ROCKET_WIDTH = 1 # horizontal dimension
-ROCKET_SPEED = 20  #  vertical (y-axis) rocket speed
+ROCKET_SPEED = 20  #  vertical (iy-axis) rocket speed
 ROCKETS_DXPOS = 40 # distance from the side
 # key map
 ROCKET1_KEY_UP = 'w'

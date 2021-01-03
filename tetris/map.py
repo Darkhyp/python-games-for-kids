@@ -18,10 +18,10 @@ class Map:
         is_collision = False
         for ind in block.block:
             iy = ind[1] + block.iy
-            if not iy < N_ROWS:
+            ix = ind[0] + block.ix
+            if ix >= N_COLS or iy >= N_ROWS:
                 is_collision = True
                 break
-            ix = ind[0] + block.ix
             if self.map[ix, iy] >= 0:
                 is_collision = True
                 break

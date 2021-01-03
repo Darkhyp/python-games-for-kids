@@ -14,7 +14,6 @@ class Block(Entity):
             self.follower.add_script(SmoothFollow(speed=30, target=self, offset=(0, 0, 0)))
 
             if self.is_head:
-                print('self.direction=', self.direction)
                 # ( 90, 90, 90) - left (-1, 0, 0)
                 # (-90, 90, 90) - right (1, 0, 0)
                 # (0, 90, 90) - down (0, -1, 0)

@@ -18,8 +18,7 @@ class Block(threading.Thread):
 
         self.surface = surface
         self.map = map
-        self.ix = pos[0]
-        self.iy = pos[1]
+        self.ix, self.iy = pos
         self.draw_pos = draw_pos
         self.speed = speed
 
@@ -34,7 +33,7 @@ class Block(threading.Thread):
         self.iy = 0
         # check collision
         if self.map.check_collision(self):
-            is_collision = True
+            self.is_collision = True
 
     def init_block(self):
         # random choice of the block and its i_color
@@ -69,7 +68,7 @@ class Block(threading.Thread):
             if self.map.check_collision(self):
                 # cancel horizontal shift
                 self.ix += 1
-        if keys[PLAYER_RIGHT] and self.ix + self.ix_max + 1 < N_COLS:
+        if keys[PLAYER_RIGHT] and self.ix + self.ix_max < N_COLS -1:
             self.ix += 1
             # check collision
             if self.map.check_collision(self):
@@ -94,9 +93,9 @@ class Block(threading.Thread):
             self.speed = BLOCK_SPEED/100
         if keys[PAUSE_KEY]:
             self.isPause = not self.isPause
+        pygame.event.clear()
 
     def fall(self):
-        self.iy_prev = self.iy
         self.iy += 1
         # check collision
         if self.map.check_collision(self):

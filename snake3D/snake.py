@@ -2,9 +2,10 @@ import random
 import threading
 import time
 
-from ursina import held_keys, Vec3, Wait
+from ursina import held_keys, Vec3, Wait, destroy, color
 
-from .CONFIGS import SNAKE_COLOR, SNAKE_DT, KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN, KEY_PAUSE, SNAKE_TAIL_COLOR, MAP_SIZE_X
+from .CONFIGS import SNAKE_COLOR, SNAKE_DT, KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN, KEY_PAUSE, SNAKE_TAIL_COLOR, \
+    SNAKE_POS0, EYE_COLOR
 from .block import Block
 
 KEYS = [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN]
@@ -17,25 +18,28 @@ DIRECTIONS = {
 
 
 class Snake(threading.Thread):
-    def __init__(self, position):
+    def __init__(self):
         threading.Thread.__init__(self)
 
-        self.new(position)
+        self.new(SNAKE_POS0)
 
         self.daemon = True  # close thread correctly!!!
 
     def new(self, position):
         self.turns = {}
         self.rnd_direction()
-        self.head = Block(position=position, color=SNAKE_COLOR, direction=self.direction)
+        self.head = Block(is_head=True, position=position, color=SNAKE_COLOR, direction=self.direction, texture=EYE_COLOR)
         self.body = [self.head]
         self.isPause = False
 
     # def reset(self):
-    #     print('self.body=',self.body)
+    #     print('self.body=', self.body)
     #     for body in self.body:
+    #         body.model = color.black
     #         body.clear()
-    #     print('self.body=',self.body)
+    #         destroy(body)
+    #     print('self.body=', self.body)
+    #     self.new(SNAKE_POS0)
 
     def run(self):
         while True:
