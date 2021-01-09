@@ -66,6 +66,9 @@ def put_ball(surface,ball,coordinate, isLimited=False):
 
 
 class Game:
+    """
+    Main class for initializing the game engine and objects
+    """
     game_over = True
     id_player = None
 

@@ -20,14 +20,14 @@ class Ball(threading.Thread):
         self.o_turtle.goto(self.x, self.y)
 
         self.score_turtle = None
-        self.printscore()
+        self.print_score()
 
         self.isPause = False
 
         self.daemon = True  # close thread correctly!!!
 
-    def printscore(self):
-        if not self.score_turtle is None:
+    def print_score(self):
+        if self.score_turtle is not None:
             self.score_turtle.clear()
         self.score_turtle = t.Turtle()
         self.score_turtle.hideturtle()
@@ -61,7 +61,7 @@ class Ball(threading.Thread):
                 if self.x * obs.ix < 0:
                     obs.score += 1  # give a score ball
             self.dx = -self.dx
-            self.printscore()  # update a score
+            self.print_score()  # update a score
             # return a ball to a start position
             self.x = 0
             self.y = 0

@@ -12,10 +12,17 @@ from snake3D.snack import Snack
 
 game_sound = Audio(clip=r'C:\Windows\Media\tada.wav', loop=False, autoplay=False)
 
+
 class Game(Ursina):
+    """
+    Main class for initializing the game engine and objects
+    """
     score = [0]
 
     def __init__(self):
+        """
+        create a game engine
+        """
         super().__init__()
         window.color = color.black
         window.fullscreen_size = (DISPLAY_WIDTH, DISPLAY_HEIGHT)
@@ -40,6 +47,9 @@ class Game(Ursina):
         self.game_over = True
 
     def create_map(self):
+        """
+        create game background
+        """
         Entity(model='quad', scale=(MAP_SIZE_X, MAP_SIZE_Y),
                position=(MAP_SIZE_X/2 - 0.5, MAP_SIZE_Y/2 - 0.5, 0.51),
                color=color.dark_gray)
@@ -49,24 +59,33 @@ class Game(Ursina):
                color=color.white)
 
     def start_new_game(self):
+        """
+        start a new game
+        """
+
+        # make start sound
         #     make_sound(2)
         game_sound.play()
+
+        # clear the last scene
         scene.clear()
 
-        # create map
+        # create a map
         self.create_map()
 
         # put snack
         self.snack = Snack()
         self.snack.random_position()
 
-        # snake
+        # create a snake
         self.snake = Snake()
         self.snake.isPause = False
         self.snake.start()
 
-
     def input(self, key):
+        """
+        check game events (keystrokes, mouse movements)
+        """
         self.snake.check_keys(key)
         if key in ['mouse1', '2']:
             camera.position = (MAP_SIZE_X/2, MAP_SIZE_Y/2 - 0.5, -50)
@@ -80,8 +99,10 @@ class Game(Ursina):
             camera.position = (camera.position[0], camera.position[1] - 3, camera.position[2])
         super().input(key)
 
-    # main loop
     def update(self):
+        """
+        update main game loop
+        """
         camera.rotation_y += mouse.velocity[0] * 40
         camera.rotation_x -= mouse.velocity[1] * 40
         camera.rotation_x = clamp(camera.rotation_x, -90, 90)

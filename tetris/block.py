@@ -93,7 +93,7 @@ class Block(threading.Thread):
             self.speed = BLOCK_SPEED/100
         if keys[PAUSE_KEY]:
             self.isPause = not self.isPause
-        pygame.event.clear()
+        # pygame.event.clear()
 
     def fall(self):
         self.iy += 1
@@ -109,5 +109,6 @@ class Block(threading.Thread):
             except Exception as e:
                 print(e)
             if not self.isPause:
+                # self.movement()
                 self.fall()
             pygame.display.update()
