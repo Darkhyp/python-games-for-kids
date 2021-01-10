@@ -18,6 +18,9 @@ myfont = pygame.font.SysFont('monospace', 32)
 
 
 class Game:
+    """
+    Main class for initializing the game engine and objects
+    """
     score = []
 
     def __init__(self):
@@ -37,7 +40,13 @@ class Game:
         self.snack = Cube(self.surface, (random.randrange(N_ROWS), random.randrange(N_ROWS)), SNACK_COLOR)
 
     def mainloop(self):
+        """
+        main game loop
+        """
+
+        # make start sound
         make_sound(2)
+
         self.snake.start()
 
         # main loop

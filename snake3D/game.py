@@ -3,14 +3,16 @@ main class for "snake" classical game in 3D using ursina module
 01/01/2021
 Author A.V.Korovin [a.v.korovin73@gmail.com]
 """
+import os
 from ursina import camera, Ursina, window, color, Light, Entity, scene, print_on_screen, invoke, mouse, \
-    distance, clamp, Grid, Sky, Audio, Shader
+    distance, clamp, Grid, Sky, audio, Shader
 
 from snake3D.CONFIGS import MAP_SIZE_X, MAP_SIZE_Y, DISPLAY_WIDTH, DISPLAY_HEIGHT
 from snake3D.snake import Snake
 from snake3D.snack import Snack
 
-game_sound = Audio(clip=r'C:\Windows\Media\tada.wav', loop=False, autoplay=False)
+# game_sound = Audio(clip=r'C:\Windows\Media\tada.wav', loop=False, autoplay=False)
+game_sound = audio.Audio(clip=os.path.join(os.path.dirname(__file__), 'tada.wav'), loop=True, autoplay=True)
 
 
 class Game(Ursina):
@@ -64,7 +66,6 @@ class Game(Ursina):
         """
 
         # make start sound
-        #     make_sound(2)
         game_sound.play()
 
         # clear the last scene

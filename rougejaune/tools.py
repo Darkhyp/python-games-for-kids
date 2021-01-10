@@ -3,10 +3,22 @@ import numpy as np
 
 
 def coordinate(case):
-    return GRID_STEP[0] * case[0] + GRID_STEP[0]/2 + 1,\
-           GRID_STEP[1] * ((GRID_NXY[1]-1)-case[1]) + GRID_STEP[1]*3/2 + 1
+    """
+    convertir la case en coordonnées
+    :param case: tuple or list of two values
+    :return: x, y coordinates in pygame surface
+    """
+    return GRID.STEP[0] * case[0] + GRID.STEP[0]/2 + 1,\
+           GRID.STEP[1] * ((GRID.NXY[1]-1)-case[1]) + GRID.STEP[1]*3/2 + 1
 
 def placer_pion(couleur, colonne, grille):
+    """
+    verifier et placer placer un pion
+    :param couleur: couleur du pion
+    :param colonne: colonne à placer
+    :param grille:  la grille
+    :return:
+    """
     isPlace = False
     line_gagne = []
     ind = np.where(grille[colonne,:] == -1)[0]
