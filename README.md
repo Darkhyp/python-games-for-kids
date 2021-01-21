@@ -16,7 +16,7 @@ The set of classical games realised in PYTHON using turtle or pygame modules:
         'rougejaune_client.py' is used to run the game on the client computer (the IP address must be the same as on the server)
 
 ![alt text](https://github.com/Darkhyp/python-games-for-kids/blob/master/rougejaune_server1.png?raw=true)
-![alt text](https://github.com/Darkhyp/python-games-for-kids/blob/master/rougejaune_server2.png?raw=true)
+![alt text](https://github.com/Darkhyp/python-games-for-kids/blob/master/rougejaune_server2.PNG?raw=true)
         
 3. Tennis
 
