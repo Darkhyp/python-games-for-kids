@@ -3,7 +3,7 @@
 The set of classical games realised in PYTHON using turtle or pygame modules:
 1. snake eats snacks
 
-![alt text](https://github.com/Darkhyp/python-games-for-kids/blob/master/snake.png?raw=true)
+<img src="snake.png" width="200px">
 
 2. Yellow contre Red
 
@@ -15,21 +15,19 @@ The set of classical games realised in PYTHON using turtle or pygame modules:
         
         'rougejaune_client.py' is used to run the game on the client computer (the IP address must be the same as on the server)
 
-![alt text](https://github.com/Darkhyp/python-games-for-kids/blob/master/rougejaune_server1.png?raw=true)
-![alt text](https://github.com/Darkhyp/python-games-for-kids/blob/master/rougejaune_server2.PNG?raw=true)
+<img src="rougejaune_server1.png" width="200px"><img src="rougejaune_server2.png" width="200px">
         
 3. Tennis
 
-![alt text](https://github.com/Darkhyp/python-games-for-kids/blob/master/tennis.png?raw=true)
+<img src="tennis.png" width="200px">
 
 4. Tetris
 
-![alt text](https://github.com/Darkhyp/python-games-for-kids/blob/master/tetris.png?raw=true)
-
+<img src="tetris.png" width="200px">
 
 5. snake eats snacks in 3D using ursina 3D engine
 
-![alt text](https://github.com/Darkhyp/python-games-for-kids/blob/master/snake3D.png?raw=true)
+<img src="snake3D.png" width="200px">
 
 
 # Author A.v. Korovin [a.v.korovin73@gmail.com]
