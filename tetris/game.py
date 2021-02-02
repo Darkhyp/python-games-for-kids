@@ -15,6 +15,8 @@ from .grid import Grid
 
 pygame.font.init()
 myfont = pygame.font.SysFont('monospace', 32)
+# init sound
+# pygame.mixer.pre_init(22050, -16, 1, 512)
 
 
 class Game:
@@ -51,12 +53,16 @@ class Game:
         # pygame initialization
         pygame.init()
 
+        # audio initialization
+        self.crunch_sound = pygame.mixer.Sound(r'tetris\crunch.wav')
+
     def start_new_game(self):
         """
         start a new game
         """
+
         while True:
-            pygame.time.delay(50)
+            # pygame.time.delay(50)
             self.clock.tick(60)
 
             for event in pygame.event.get():
@@ -86,14 +92,8 @@ class Game:
 
         # main loop
         while not self.game_over:
-            pygame.time.delay(60)
+            pygame.time.delay(50)
             self.clock.tick(60)
-
-            # check game events (to exit)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
 
             # create a new block (copy the next block to the current block)
             if self.is_new_block:
@@ -102,6 +102,7 @@ class Game:
                 if self.n_blocks % 20 == 0:
                     self.n_level += 1
                     self.block_speed *= 0.8
+                # create new block
                 self.current_block = Block(self.surface, speed=self.block_speed, map=self.map, draw_pos=GRID_POS)
                 self.current_block.copy(self.next_block)
                 self.next_block.init_block()
@@ -117,8 +118,15 @@ class Game:
                 else:
                     self.current_block.start()
 
-            # check block movement (check keystrokes)
-            self.current_block.movement()
+            # check game events (to exit)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.KEYDOWN:
+                    # check block movement (check keystrokes)
+                    self.current_block.movement()
+
             # check block collisions
             self.check_block_collisions()
 
@@ -134,7 +142,7 @@ class Game:
             self.map.put_block(self.current_block)
             self.current_block = None
 
-            self.map.check_lines()
+            self.map.check_lines(self.crunch_sound)
 
     def redraw(self):
         """
