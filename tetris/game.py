@@ -26,6 +26,9 @@ class Game:
     n_level = 1
     n_blocks = 0
     score = []
+    current_block = None
+    is_game_over = False
+    is_new_block = True
 
     def __init__(self):
         # create pygame surface
@@ -48,7 +51,7 @@ class Game:
         self.next_block = Block(self.next_block_surface)
 
         # setting to create a new game
-        self.is_new_game = True
+        self.is_game = False
 
         # pygame initialization
         pygame.init()
@@ -56,82 +59,70 @@ class Game:
         # audio initialization
         self.crunch_sound = pygame.mixer.Sound(r'tetris\crunch.wav')
 
-    def start_new_game(self):
-        """
-        start a new game
-        """
-
-        while True:
-            # pygame.time.delay(50)
-            self.clock.tick(60)
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    # pygame.quit()
-                    sys.exit()
-
-            if self.is_new_game:
-                self.next_block.init_block()
-                self.is_new_block = True
-                self.game_over = False
-                self.block_speed = BLOCK_SPEED
-                self.game_loop()
-
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_n]:
-                self.map.new()
-                self.is_new_game = True
-
     def game_loop(self):
         """
         main game loop
         """
 
-        # make start sound
-        make_sound(2)
-
         # main loop
-        while not self.game_over:
+        while True:
             pygame.time.delay(50)
             self.clock.tick(60)
 
-            # create a new block (copy the next block to the current block)
-            if self.is_new_block:
-                self.is_new_block = False
-                self.n_blocks += 1
-                if self.n_blocks % 20 == 0:
-                    self.n_level += 1
-                    self.block_speed *= 0.8
-                # create new block
-                self.current_block = Block(self.surface, speed=self.block_speed, map=self.map, draw_pos=GRID_POS)
-                self.current_block.copy(self.next_block)
-                self.next_block.init_block()
-                # check if the game is over
-                if self.map.check_collision(self.current_block):
-                    self.current_block.draw()
-                    # game over
-                    self.print_central_text('press "N" for a new game')
-                    pygame.display.update()
-                    self.is_new_game = False
-                    self.game_over = True
-                    break
-                else:
-                    self.current_block.start()
+            if self.is_game:
+                # create a new block (copy the next block to the current block)
+                if self.is_new_block:
+                    self.n_blocks += 1
+                    if self.n_blocks % 20 == 0:
+                        self.n_level += 1
+                        self.block_speed *= 0.8
+                    # create new block
+                    self.current_block = Block(self.surface, speed=self.block_speed, map=self.map, draw_pos=GRID_POS)
+                    self.current_block.copy(self.next_block)
+                    self.next_block.init_block()
+                    # check if the game is over
+                    if self.map.check_collision(self.current_block):
+                        self.current_block.draw()
+                        # game over
+                        self.is_game = False
+                        self.is_game_over = True
+                    else:
+                        self.is_new_block = False
+                        self.current_block.start()
+                # check block collisions
+                self.check_block_collisions()
 
             # check game events (to exit)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                if event.type == pygame.KEYDOWN:
-                    # check block movement (check keystrokes)
-                    self.current_block.movement()
 
-            # check block collisions
-            self.check_block_collisions()
+                if event.type == pygame.KEYDOWN:
+                    if self.is_game:
+                        # check block movement (check keystrokes)
+                        if self.current_block is not None:
+                            self.current_block.movement()
+                    else:
+                        keys = pygame.key.get_pressed()
+                        if keys[pygame.K_n]:
+                            # start new game
+                            self.new_game()
 
             # redraw game objects
             self.redraw()
+
+    def new_game(self):
+        self.is_new_block = True
+        self.is_game_over = False
+        self.is_game = True
+
+        # make start sound
+        make_sound(2)
+
+        self.map.new()
+        self.block_speed = BLOCK_SPEED
+        self.next_block.init_block()
 
     def check_block_collisions(self):
         """
@@ -168,10 +159,12 @@ class Game:
                 self.print_central_text('Pause')
 
         # draw text level number
-        if self.game_over:
+        if self.is_game_over:
             self.print_central_text('Game over', is_head=True)
-        else:
+        if self.is_game:
             self.print_central_text(f'Level {self.n_level}', is_head=True)
+        else:
+            self.print_central_text('press "N" for a new game')
 
         # update pygame engine
         pygame.display.update()

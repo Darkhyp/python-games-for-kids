@@ -5,7 +5,7 @@ import time
 import pygame
 
 from tetris.CONFIGS import BLOCK_LIST, N_COLS, GRID_DX, GRID_DY, GRID_POS, PLAYER_LEFT, PLAYER_RIGHT, \
-    PAUSE_KEY, NEXT_PANEL_WIDTH, NEXT_PANEL_HEIGHT, PLAYER_UP, BLOCK_SPEED, PLAYER_DOWN, COLOR_LIST
+    PAUSE_KEY, NEXT_PANEL_WIDTH, NEXT_PANEL_HEIGHT, PLAYER_UP, BLOCK_SPEED, PLAYER_DOWN
 
 
 class Block(threading.Thread):
@@ -38,8 +38,8 @@ class Block(threading.Thread):
     def init_block(self):
         # random choice of the block and its i_color
         tmp_block = random.choice(BLOCK_LIST)
-        self.block = tmp_block[0]
-        self.i_color = tmp_block[1]
+        self.i_color = tmp_block[0]
+        self.block = tmp_block[1]
 
         # max dimensions
         self.ix_max = self.iy_max = 0
@@ -54,7 +54,7 @@ class Block(threading.Thread):
 
     def draw(self):
         for coordinate in self.block:
-            pygame.draw.rect(self.surface, COLOR_LIST[self.i_color],
+            pygame.draw.rect(self.surface, BLOCK_LIST[self.i_color][2],
                              (self.draw_pos[0] + (self.ix + coordinate[0]) * GRID_DX + 1,
                               self.draw_pos[1] + (self.iy + coordinate[1]) * GRID_DY + 1,
                               GRID_DX - 1,
@@ -109,6 +109,5 @@ class Block(threading.Thread):
             except Exception as e:
                 print(e)
             if not self.isPause:
-                # self.movement()
                 self.fall()
             pygame.display.update()
