@@ -2,7 +2,7 @@ import time
 import turtle as t
 from common import make_sound
 from .ball import Ball
-from .rocket import Rocket
+from .racket import Racket
 from .CONFIGS import *
 
 
@@ -13,10 +13,10 @@ class Game:
     def __init__(self):
         self.turtle_init()
 
-        self.left_rocket = Rocket('left', ROCKET_SPEED, (-WIDTH/2+ROCKETS_DXPOS,0),ROCKET1_COLOR)
-        self.right_rocket = Rocket('right', ROCKET_SPEED, (WIDTH/2-ROCKETS_DXPOS,0),ROCKET2_COLOR)
+        self.left_racket = Racket('left', ROCKET_SPEED, (-WIDTH/2+ROCKETS_DXPOS,0),ROCKET1_COLOR)
+        self.right_racket = Racket('right', ROCKET_SPEED, (WIDTH/2-ROCKETS_DXPOS,0),ROCKET2_COLOR)
 
-        self.ball = Ball(BALL_SPEED, (0, 0), (self.left_rocket, self.right_rocket))
+        self.ball = Ball(BALL_SPEED, (0, 0), (self.left_racket, self.right_racket))
         self.message_turtle = None
 
         t.update()
@@ -33,10 +33,10 @@ class Game:
     def activate_keys(self):
         t.listen()  # Déclenche l’écoute du clavier
         # Associe à une touche a une fonction:
-        t.onkeypress(lambda: self.left_rocket.deplacer_up(ROCKET1_KEY_UP), ROCKET1_KEY_UP)
-        t.onkeypress(lambda: self.left_rocket.deplacer_down(ROCKET1_KEY_DOWN), ROCKET1_KEY_DOWN)
-        t.onkeypress(lambda: self.right_rocket.deplacer_up(ROCKET2_KEY_UP), ROCKET2_KEY_UP)
-        t.onkeypress(lambda: self.right_rocket.deplacer_down(ROCKET2_KEY_DOWN), ROCKET2_KEY_DOWN)
+        t.onkeypress(lambda: self.left_racket.deplacer_up(ROCKET1_KEY_UP), ROCKET1_KEY_UP)
+        t.onkeypress(lambda: self.left_racket.deplacer_down(ROCKET1_KEY_DOWN), ROCKET1_KEY_DOWN)
+        t.onkeypress(lambda: self.right_racket.deplacer_up(ROCKET2_KEY_UP), ROCKET2_KEY_UP)
+        t.onkeypress(lambda: self.right_racket.deplacer_down(ROCKET2_KEY_DOWN), ROCKET2_KEY_DOWN)
         t.onkeypress(lambda: self.pause(), PAUSE_KEY)
         t.onkeypress(lambda: self.restart(), RESTART_KEY)
 
@@ -51,7 +51,7 @@ class Game:
             self.message_turtle.clear()
 
     def restart(self):
-        self.right_rocket.score = self.left_rocket.score = 0
+        self.right_racket.score = self.left_racket.score = 0
         self.ball.x = 0
         self.ball.y = 0
         self.ball.print_score()

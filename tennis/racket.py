@@ -2,9 +2,9 @@ import turtle as t
 from .CONFIGS import *
 
 
-class Rocket:
+class Racket:
     def __init__(self, side, step, position, color):
-        # rocket position correction
+        # racket position correction
         if side == 'left':
             self.dx0 = TKTURTLE_DX
         elif side == 'right':

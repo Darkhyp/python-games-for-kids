@@ -11,18 +11,18 @@ BALL_SIZE = 1
 BALL_SPEED = 3
 BALL_DT = 0.002 # sleep in seconds
 
-# rockets parameters
-ROCKET_HEIGHT = 5 # vertical dimension
-ROCKET_WIDTH = 1 # horizontal dimension
-ROCKET_SPEED = 20  #  vertical (iy-axis) rocket speed
-ROCKETS_DXPOS = 40 # distance from the side
+# rackets parameters
+RACKET_HEIGHT = 5 # vertical dimension
+RACKET_WIDTH = 1 # horizontal dimension
+RACKET_SPEED = 20  #  vertical (iy-axis) racket speed
+RACKETS_DXPOS = 40 # distance from the side
 # key map
-ROCKET1_KEY_UP = 'w'
-ROCKET1_KEY_DOWN = 's'
-ROCKET1_COLOR = 'red' # i_color
-ROCKET2_KEY_UP = 'Up'
-ROCKET2_KEY_DOWN = 'Down'
-ROCKET2_COLOR = 'blue' # i_color
+RACKET1_KEY_UP = 'w'
+RACKET1_KEY_DOWN = 's'
+RACKET1_COLOR = 'red' # i_color
+RACKET2_KEY_UP = 'Up'
+RACKET2_KEY_DOWN = 'Down'
+RACKET2_COLOR = 'blue' # i_color
 
 # position (and i_color) of the text for scores output
 SCORE_POS = 20

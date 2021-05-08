@@ -1,3 +1,3 @@
 from .ball import Ball
-from .rocket import Rocket
+from .racket import Racket
 from .game import Game
